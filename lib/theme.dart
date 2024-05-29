@@ -12,7 +12,6 @@ ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     color: Colors.grey[300],
     centerTitle: true,
-    scrolledUnderElevation: 0.5,
   ),
   colorScheme: ColorScheme.fromSwatch(
     primarySwatch: Colors.blue,

@@ -221,7 +221,10 @@ class _NotesListPageState extends State<NotesListPage> {
                         ),
                         IconButton(
                           onPressed: (){
-                            //Navigator.pushNamed(context, "/notesListPage", arguments: snapshot.data![index].id);
+                            Navigator.pushNamed(context, "/notePage", arguments:{
+                              'id': snapshot.data![index].id,
+                              'name': snapshot.data![index].name
+                            });
                           }, 
                           icon: const Icon(Icons.arrow_back_ios_new)
                         )

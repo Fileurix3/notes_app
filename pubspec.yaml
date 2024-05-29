@@ -37,6 +37,8 @@ dependencies:
   sqflite: ^2.3.3+1
   path: ^1.9.0
   flutter_slidable: ^3.1.0
+  simple_markdown_editor: ^0.2.0
+  flutter_markdown: ^0.6.9+1
 
 dev_dependencies:
   flutter_test:

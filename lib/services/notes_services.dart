@@ -94,4 +94,41 @@ class NotesServices {
       whereArgs: [id]
     );
   }
+
+
+  Future<List<NotesModel>> getNoteById(id) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      _tableName,
+      where: "id = ?",
+      whereArgs: [id]
+    );
+
+    return [
+      for (final {
+        "id": id as int,
+        "folderId": folderId as int,
+        "name": name as String,
+        "description": description,
+      } in maps )
+      NotesModel(
+        id: id, 
+        folderId: folderId, 
+        name: name, 
+        description: description
+      )
+    ];
+  }
+  Future<void> updateNoteDescription(int id, String description) async{
+    final db = await database;
+
+    await db.update(
+      _tableName,
+      {
+        "description": description
+      },
+      where: "id = ?",
+      whereArgs: [id]
+    );
+  }
 }

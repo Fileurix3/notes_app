@@ -30,7 +30,7 @@ class _NotesFoldersPageState extends State<NotesFoldersPage> {
   }
 
   void _addNewFolder(String name) async{
-    await notesFoldersServices.insertNotesFolder(NotesFoldersModel(id: 0, name: name));
+    await notesFoldersServices.insertNotesFolder(name);
     fetchNotesFolders();
   }
   void _editNameFolders(int id, String name) async{

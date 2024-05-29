@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/pages/note_page.dart';
+import 'package:notes_app/theme.dart';
 import 'package:notes_app/pages/notes_folders_page.dart';
 import 'package:notes_app/pages/notes_list_page.dart';
-import 'package:notes_app/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,12 +19,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      //title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: lightTheme,
       home: const NotesFoldersPage(),
       routes: {
-        "/notesListPage": (context) => NotesListPage(),
+        "/notesListPage": (context) => const NotesListPage(),
+        "/notePage": (context) => const NotePage(),
       }
     );
   }

@@ -46,13 +46,13 @@ class NotesFoldersServices {
     ];
   }
 
-  Future<void> insertNotesFolder(NotesFoldersModel folder) async {
+  Future<void> insertNotesFolder(String name) async {
     final db = await database;
 
     await db.insert(
       _tableName, 
       {
-        "name": folder
+        "name": name
       },
       conflictAlgorithm: ConflictAlgorithm.replace
     );
