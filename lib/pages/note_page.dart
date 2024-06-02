@@ -58,10 +58,11 @@ class _NotePageState extends State<NotePage> {
             onPressed: (){
               setState(() {
                 isEdit = !isEdit;
-                //descriptionContraller.text = description;
               });
             }, 
-            icon: const Icon(Icons.edit)
+            icon: isEdit 
+              ? const Icon(Icons.clear) 
+              : const Icon(Icons.edit)
           )
         ],
       ),
@@ -106,7 +107,7 @@ class _NotePageState extends State<NotePage> {
                     child: description.isEmpty 
                     ? const Center(
                       child: Text(
-                        "There is nothing\nadd a description",
+                        "There is nothing",
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.w300

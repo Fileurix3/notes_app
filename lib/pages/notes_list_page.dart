@@ -52,7 +52,6 @@ class _NotesListPageState extends State<NotesListPage> {
       context: context, 
       builder: (coontext) {
         return AlertDialog(
-          elevation: 1,
           title: const Text("Add note"),
           content: TextField(
             controller: nameController,
@@ -87,7 +86,6 @@ class _NotesListPageState extends State<NotesListPage> {
       context: context, 
       builder: (coontext) {
         return AlertDialog(
-          elevation: 1,
           title: const Text("edit note"),
           content: TextField(
             controller: nameController,

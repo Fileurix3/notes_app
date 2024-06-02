@@ -47,7 +47,6 @@ class _NotesFoldersPageState extends State<NotesFoldersPage> {
       context: context, 
       builder: (coontext) {
         return AlertDialog(
-          elevation: 1,
           title: const Text("Add folder"),
           content: TextField(
             controller: nameController,
@@ -82,7 +81,6 @@ class _NotesFoldersPageState extends State<NotesFoldersPage> {
       context: context, 
       builder: (context) {
         return AlertDialog(
-          elevation: 1,
           title: const Text("Change folder"),
           content: TextField(
             controller: nameController,
@@ -210,7 +208,7 @@ class _NotesFoldersPageState extends State<NotesFoldersPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            "${snapshot.data![index].id}: ${snapshot.data?[index].name}",
+                            "${snapshot.data?[index].name}",
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                         ),
