@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:notes_app/model/notes_model.dart';
 import 'package:notes_app/services/notes_services.dart';
-import 'package:simple_markdown_editor/simple_markdown_editor.dart';
+import 'package:notes_app/widgets/edit_note.dart';
+import 'package:notes_app/widgets/read_note.dart';
 
 class NotePage extends StatefulWidget {
   const NotePage({super.key});
@@ -12,40 +12,44 @@ class NotePage extends StatefulWidget {
 }
 
 class _NotePageState extends State<NotePage> {
-  Future<List<NotesModel>>? note;
+  Future<NotesModel>? note;
   final notesServices = NotesServices();
 
-  String description = "";
-  TextEditingController descriptionContraller = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   bool isEdit = false;
 
   late int id;
   late String name;
 
   @override
-  void didChangeDependencies(){
+  void didChangeDependencies() {
     super.didChangeDependencies();
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     id = args["id"];
     name = args["name"];
-    fetchNote(id);
+    fetchNote();
   }
 
-  void fetchNote(int id) async {
-  final fetchedNotes = await notesServices.getNoteById(id);
-  if (fetchedNotes.isNotEmpty) {
-    final fetchedNote = fetchedNotes.first;
+  void fetchNote() {
     setState(() {
-      note = Future.value([fetchedNote]);
-      description = fetchedNote.description ?? "";
-      descriptionContraller.text = description;
+      note = notesServices.getNoteById(id).then((fetchedNotes) {
+        if (fetchedNotes.isNotEmpty) {
+          final fetchedNote = fetchedNotes.first;
+          descriptionController.text = fetchedNote.description ?? "";
+          return fetchedNote;
+        } else {
+          throw Exception('Note not found');
+        }
+      });
     });
   }
-}
 
   void _editNoteDescription(String description) async {
     await notesServices.updateNoteDescription(id, description);
-    fetchNote(id);
+    fetchNote();
+    setState(() {
+      isEdit = false;
+    });
   }
 
   @override
@@ -55,93 +59,51 @@ class _NotePageState extends State<NotePage> {
         title: Text(name),
         actions: [
           IconButton(
-            onPressed: (){
+            onPressed: () {
               setState(() {
                 isEdit = !isEdit;
               });
-            }, 
-            icon: isEdit 
-              ? const Icon(Icons.clear) 
-              : const Icon(Icons.edit)
+            },
+            icon: isEdit
+              ? const Icon(Icons.clear)
+              : const Icon(Icons.edit),
           )
         ],
       ),
-      body: FutureBuilder(
-        future: note, 
+      body: FutureBuilder<NotesModel>(
+        future: note,
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting){
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator()
             );
-          }else if(snapshot.data == null || snapshot.data!.isEmpty){
-            return const Center(
+          } else if (snapshot.hasError) {
+            return Center(
               child: Text(
-                "There is nothing",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w300
-                ),
+                'Error loading note',
+                style: Theme.of(context).textTheme.headlineSmall,
               )
             );
-          }else {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if(isEdit)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      child: MarkdownField(
-                        controller: descriptionContraller,
-                        emojiConvert: true,
-                        style: Theme.of(context).textTheme.labelLarge,
-                        onChanged: (value) {
-                          setState(() {
-                            description = value;
-                          });
-                        },
-                      )
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
-                    child: description.isEmpty 
-                    ? const Center(
-                      child: Text(
-                        "There is nothing",
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w300
-                        ),
-                      )
-                    )
-                    : Center(
-                      child: MarkdownBody(
-                        data: description,
-                        styleSheet: MarkdownStyleSheet(
-                          p: const TextStyle(fontSize: 20)
-                        ),
-                      ),
-                    )
-                  ),
-                  if(isEdit)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: ElevatedButton(
-                        onPressed: (){
-                          _editNoteDescription(description);
-                        }, 
-                        child: Text(
-                          "Submit",
-                          style: Theme.of(context).textTheme.labelMedium,
-                        )
-                      )
-                    )
-                ],
-              ),
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return Center(
+              child: Text(
+                'Note not found',
+                style: Theme.of(context).textTheme.headlineSmall,
+              )
             );
+          } else {
+            return isEdit
+              ? EditNote(
+                  note: snapshot.data!,
+                  onSave: _editNoteDescription,
+                  descriptionController: descriptionController,
+                )
+              : ReadNote(
+                  note: snapshot.data!,
+                );
           }
-        }
-      )
+        },
+      ),
     );
   }
 }

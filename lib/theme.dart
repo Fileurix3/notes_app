@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 const textTheme = TextTheme(
-  headlineSmall: TextStyle(fontSize: 26),
   titleLarge: TextStyle(fontSize: 28),
+  headlineSmall: TextStyle(fontSize: 26, fontWeight: FontWeight.w300),
   titleSmall: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
   labelMedium: TextStyle(fontSize: 18, color: Colors.white),
   labelLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),

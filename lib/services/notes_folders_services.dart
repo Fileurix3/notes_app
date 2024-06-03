@@ -24,7 +24,7 @@ class NotesFoldersServices {
         return db.execute(
           '''
           CREATE TABLE $_tableName(
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL
           )
           '''

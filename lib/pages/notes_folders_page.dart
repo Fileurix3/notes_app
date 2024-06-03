@@ -123,7 +123,7 @@ class _NotesFoldersPageState extends State<NotesFoldersPage> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          }else if(snapshot.data!.isEmpty){
+          }else if(snapshot.data == null || snapshot.data!.isEmpty){
             return const Center(
               child: Text(
                 "There is nothing",
