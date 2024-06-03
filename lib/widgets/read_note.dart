@@ -11,20 +11,20 @@ class ReadNote extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
       child: SingleChildScrollView(
-        child: note.description == ""  
+        child: note.description == null || note.description!.isEmpty
           ? Center(
+            child: Text(
+              "There is nothing",
+              style: Theme.of(context).textTheme.headlineMedium,
+            )
+          )
+          : Center(
             child: MarkdownBody(
               data: note.description!,
               styleSheet: MarkdownStyleSheet(
-                p: const TextStyle(fontSize: 18)
+                p: const TextStyle(fontSize: 18,)
               ),
             ),
-          )
-          : Center(
-            child: Text(
-              "There is nothing",
-              style: Theme.of(context).textTheme.headlineSmall,
-            )
           )
       )
     );

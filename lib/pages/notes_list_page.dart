@@ -129,13 +129,10 @@ class _NotesListPageState extends State<NotesListPage> {
               child: CircularProgressIndicator(),
             );
           }else if(snapshot.data == null || snapshot.data!.isEmpty){
-            return const Center(
+            return Center(
               child: Text(
                 "There is nothing",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w300
-                ),
+                style: Theme.of(context).textTheme.headlineMedium
               )
             );
           }else{

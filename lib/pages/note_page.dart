@@ -81,14 +81,14 @@ class _NotePageState extends State<NotePage> {
             return Center(
               child: Text(
                 'Error loading note',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineMedium,
               )
             );
           } else if (!snapshot.hasData || snapshot.data == null) {
             return Center(
               child: Text(
                 'Note not found',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineMedium,
               )
             );
           } else {
